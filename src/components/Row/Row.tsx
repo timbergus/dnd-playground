@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { ListChildComponentProps } from 'react-window'
 
 type ContainerProps = {
@@ -14,14 +14,8 @@ const Container = styled.div<ContainerProps>`
     $index % 2 === 0 ? 'white' : 'lightgrey'};
 `
 
-export const Row: FC<ListChildComponentProps> = ({ index, style }) => {
-  useEffect(() => {
-    console.log('Index:', index)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  return (
-    <Container style={style} $index={index}>
-      Index: {index}
-    </Container>
-  )
-}
+export const Row: FC<ListChildComponentProps> = ({ data, index, style }) => (
+  <Container style={style} $index={index}>
+    Index: {data[index]}
+  </Container>
+)
