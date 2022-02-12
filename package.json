@@ -11,6 +11,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
     "react-virtualized-auto-sizer": "^1.0.6",
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
     "@types/styled-components": "^5.1.22"
