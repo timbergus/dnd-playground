@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Drag & Drop Playground
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a massive test to see how well works [react-window](https://github.com/bvaughn/react-window) and [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) libraries.
+
+The idea is to create a sortable 1000x4000 elements grid that works.
 
 ## Available Scripts
 
