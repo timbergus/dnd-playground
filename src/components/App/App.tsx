@@ -1,12 +1,13 @@
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { FC, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { FixedSizeGrid } from 'react-window'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
 import { Cell } from '../Row/Cell'
+import { DnDContext } from '../contexts/dnd.context'
 
-const ELEMENTS = 10000
+const ELEMENTS = 5000
 
 export const COLUMN_COUNT = 5
 const ROW_COUNT = ELEMENTS / COLUMN_COUNT
@@ -19,27 +20,25 @@ const getInitialState = (): string[] =>
 const App: FC = () => {
   const [cells, setCells] = useState(getInitialState())
 
+  const { selectedIndex, setSelectedIndex } = useContext(DnDContext)
+
   const getIndex = (id?: string): number => (id ? cells.indexOf(id) : -1)
 
-  const [activeIndex, setActiveIndex] = useState<number>(getIndex())
-
   const handleDragEnd = ({ active, over }: DragEndEvent): void => {
-    console.log(activeIndex)
-
     if (over) {
       const overIndex = getIndex(over.id)
-      if (activeIndex !== overIndex) {
-        setCells((cells) => arrayMove(cells, activeIndex, overIndex))
+      if (selectedIndex !== overIndex) {
+        setCells((cells) => arrayMove(cells, selectedIndex, overIndex))
       }
     }
 
-    setActiveIndex(-1)
+    setSelectedIndex(-1)
   }
 
   return (
     <DndContext
       onDragStart={({ active }) => {
-        setActiveIndex(getIndex(active.id))
+        setSelectedIndex(getIndex(active.id))
       }}
       onDragEnd={handleDragEnd}
     >

@@ -1,12 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import './index.css'
+
 import App from './components/App/App'
 import reportWebVitals from './reportWebVitals'
+import { DnDContextProvider } from './components/contexts/dnd.context'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DnDContextProvider>
+      <App />
+    </DnDContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )
