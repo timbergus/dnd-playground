@@ -4,7 +4,7 @@ import { FixedSizeGrid } from 'react-window'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
-import { Cell } from '../Row/Cell'
+import { Cell } from '../Cell/Cell'
 import { DnDContext } from '../contexts/dnd.context'
 
 const ELEMENTS = 5000
