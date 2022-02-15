@@ -1,11 +1,12 @@
 import styled from 'styled-components'
-import { FC, useContext } from 'react'
+import { FC, memo, useContext } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 import { DnDContext } from '../dnd.context'
 import { Item } from '../dnd.types'
 import { Handler } from '../dnd.ui'
+import { areEqual } from '../dnd.utils'
 
 type ContainerProps = {
   $index: number
@@ -64,3 +65,5 @@ export const HeaderComponent: FC<HeaderComponentProps> = ({ item }) => {
     </Container>
   )
 }
+
+export const MemoizedHeaderComponent = memo(HeaderComponent, areEqual)

@@ -1,11 +1,12 @@
 import styled from 'styled-components'
-import { FC, useContext } from 'react'
+import { FC, memo, useContext } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 import { DnDContext } from '../dnd.context'
 import { Item } from '../dnd.types'
 import { Handler } from '../dnd.ui'
+import { areEqual } from '../dnd.utils'
 
 type ContainerProps = {
   $index: number
@@ -24,7 +25,7 @@ const Container = styled.div<ContainerProps>`
     $index % 2 === 0 ? 'white' : 'lightgrey'};
 `
 
-type CardComponentProps = {
+export type CardComponentProps = {
   item: Item
 }
 
@@ -66,3 +67,5 @@ export const CardComponent: FC<CardComponentProps> = ({ item }) => {
     </Container>
   )
 }
+
+export const MemoizedCardComponent = memo(CardComponent, areEqual)

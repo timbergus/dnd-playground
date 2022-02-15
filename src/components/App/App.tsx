@@ -1,12 +1,12 @@
+import styled from 'styled-components'
 import { FC, useContext, useState } from 'react'
 import { DndContext, DragEndEvent, pointerWithin } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
-import { CardComponent } from '../CardComponent/CardComponent'
-import { DnDContext } from '../dnd.context'
 import { Item } from '../dnd.types'
-import styled from 'styled-components'
-import { HeaderComponent } from '../HeaderComponent/HeaderComponent'
+import { DnDContext } from '../dnd.context'
+import { MemoizedCardComponent } from '../CardComponent/CardComponent'
+import { MemoizedHeaderComponent } from '../HeaderComponent/HeaderComponent'
 
 const CardsContainer = styled.div`
   display: flex;
@@ -50,9 +50,9 @@ const App: FC = () => {
         <CardsContainer>
           {items.map((id) =>
             itemsStructure[id].type === 'header' ? (
-              <HeaderComponent key={id} item={itemsStructure[id]} />
+              <MemoizedHeaderComponent key={id} item={itemsStructure[id]} />
             ) : (
-              <CardComponent key={id} item={itemsStructure[id]} />
+              <MemoizedCardComponent key={id} item={itemsStructure[id]} />
             )
           )}
         </CardsContainer>
