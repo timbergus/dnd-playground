@@ -1,12 +1,28 @@
 import styled from 'styled-components'
 import { FC, useContext, useState } from 'react'
-import { DndContext, DragEndEvent, pointerWithin } from '@dnd-kit/core'
-import { arrayMove, SortableContext } from '@dnd-kit/sortable'
+import {
+  DndContext,
+  DragEndEvent,
+  pointerWithin,
+  closestCenter,
+  DragOverlay,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable'
 
 import { Item } from '../dnd.types'
 import { DnDContext } from '../dnd.context'
-import { MemoizedCardComponent } from '../CardComponent/CardComponent'
-import { MemoizedHeaderComponent } from '../HeaderComponent/HeaderComponent'
+import {
+  CardComponent,
+  MemoizedCardComponent,
+} from '../CardComponent/CardComponent'
+import {
+  HeaderComponent,
+  MemoizedHeaderComponent,
+} from '../HeaderComponent/HeaderComponent'
 
 const CardsContainer = styled.div`
   display: flex;
@@ -46,16 +62,31 @@ const App: FC = () => {
       onDragEnd={handleDragEnd}
       collisionDetection={pointerWithin}
     >
-      <SortableContext items={items}>
+      <SortableContext items={items} strategy={rectSortingStrategy}>
         <CardsContainer>
           {items.map((id) =>
             itemsStructure[id].type === 'header' ? (
-              <MemoizedHeaderComponent key={id} item={itemsStructure[id]} />
+              <HeaderComponent key={id} item={itemsStructure[id]} />
             ) : (
-              <MemoizedCardComponent key={id} item={itemsStructure[id]} />
+              <CardComponent key={id} item={itemsStructure[id]} />
             )
           )}
         </CardsContainer>
+        <DragOverlay>
+          {selectedId && itemsStructure[selectedId].type === 'header' ? (
+            <HeaderComponent
+              key={selectedId}
+              item={itemsStructure[selectedId]}
+              isDragOverlay
+            />
+          ) : (
+            <CardComponent
+              key={selectedId}
+              item={itemsStructure[selectedId]}
+              isDragOverlay
+            />
+          )}
+        </DragOverlay>
       </SortableContext>
     </DndContext>
   )

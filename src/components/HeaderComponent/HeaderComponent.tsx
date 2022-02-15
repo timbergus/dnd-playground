@@ -25,9 +25,13 @@ const Container = styled.div<ContainerProps>`
 
 type HeaderComponentProps = {
   item: Item
+  isDragOverlay?: boolean
 }
 
-export const HeaderComponent: FC<HeaderComponentProps> = ({ item }) => {
+export const HeaderComponent: FC<HeaderComponentProps> = ({
+  item,
+  isDragOverlay,
+}) => {
   const { selectedId } = useContext(DnDContext)
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id })
@@ -45,7 +49,7 @@ export const HeaderComponent: FC<HeaderComponentProps> = ({ item }) => {
       : undefined,
     transition,
     // Custom styles for dragging.
-    zIndex: isBeingDragged ? 10000 : undefined,
+    opacity: isBeingDragged && !isDragOverlay ? 0.2 : 1,
     borderColor: isBeingDragged ? 'red' : undefined,
     boxShadow: isBeingDragged ? '0px 2px 38px rgba(0, 0, 0, 0.3)' : undefined,
   }

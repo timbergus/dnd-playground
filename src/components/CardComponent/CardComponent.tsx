@@ -27,9 +27,13 @@ const Container = styled.div<ContainerProps>`
 
 export type CardComponentProps = {
   item: Item
+  isDragOverlay?: boolean
 }
 
-export const CardComponent: FC<CardComponentProps> = ({ item }) => {
+export const CardComponent: FC<CardComponentProps> = ({
+  item,
+  isDragOverlay,
+}) => {
   const { selectedId } = useContext(DnDContext)
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id })
@@ -47,7 +51,7 @@ export const CardComponent: FC<CardComponentProps> = ({ item }) => {
       : undefined,
     transition,
     // Custom styles for dragging.
-    zIndex: isBeingDragged ? 10000 : undefined,
+    opacity: isBeingDragged && !isDragOverlay ? 0.2 : 1,
     borderColor: isBeingDragged ? 'red' : undefined,
     boxShadow: isBeingDragged ? '0px 2px 38px rgba(0, 0, 0, 0.3)' : undefined,
   }
@@ -63,7 +67,7 @@ export const CardComponent: FC<CardComponentProps> = ({ item }) => {
         {...listeners}
         {...attributes}
       />
-      {item.value}
+      {isDragOverlay ? `Overlay: ${item.value}` : item.value}
     </Container>
   )
 }
