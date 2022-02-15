@@ -4,7 +4,6 @@ import {
   DndContext,
   DragEndEvent,
   pointerWithin,
-  closestCenter,
   DragOverlay,
 } from '@dnd-kit/core'
 import {
@@ -74,13 +73,13 @@ const App: FC = () => {
         </CardsContainer>
         <DragOverlay>
           {selectedId && itemsStructure[selectedId].type === 'header' ? (
-            <HeaderComponent
+            <MemoizedHeaderComponent
               key={selectedId}
               item={itemsStructure[selectedId]}
               isDragOverlay
             />
           ) : (
-            <CardComponent
+            <MemoizedCardComponent
               key={selectedId}
               item={itemsStructure[selectedId]}
               isDragOverlay

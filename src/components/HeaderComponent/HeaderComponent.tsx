@@ -44,7 +44,6 @@ export const HeaderComponent: FC<HeaderComponentProps> = ({
           ...transform,
           scaleX: 1,
           scaleY: 1,
-          x: transform.x + (isBeingDragged ? 0 : 0),
         })
       : undefined,
     transition,

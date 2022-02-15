@@ -46,7 +46,6 @@ export const CardComponent: FC<CardComponentProps> = ({
           ...transform,
           scaleX: 1,
           scaleY: 1,
-          x: transform.x + (isBeingDragged ? 0 : 0),
         })
       : undefined,
     transition,
