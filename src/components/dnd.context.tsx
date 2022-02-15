@@ -9,7 +9,7 @@ import {
 
 import { Item } from './dnd.types'
 
-const NUMBER_OF_ITEMS = 50
+export const NUMBER_OF_ITEMS = 15
 
 type DnDContextProps = {
   cards: Item[]

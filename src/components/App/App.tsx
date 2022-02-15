@@ -1,5 +1,5 @@
 import { FC, useContext, useState } from 'react'
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, pointerWithin } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
 import { CardComponent } from '../CardComponent/CardComponent'
@@ -11,6 +11,7 @@ import { HeaderComponent } from '../HeaderComponent/HeaderComponent'
 const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   width: 100%;
   height: 100%;
 `
@@ -43,6 +44,7 @@ const App: FC = () => {
         setSelectedId(active.id)
       }}
       onDragEnd={handleDragEnd}
+      collisionDetection={pointerWithin}
     >
       <SortableContext items={items}>
         <CardsContainer>
