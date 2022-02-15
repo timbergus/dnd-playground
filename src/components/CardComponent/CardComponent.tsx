@@ -1,14 +1,10 @@
 import styled from 'styled-components'
 import { FC, useContext } from 'react'
-import { GridChildComponentProps } from 'react-window'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { COLUMN_COUNT } from '../App/App'
-import { DnDContext } from '../contexts/dnd.context'
-
-const getIndex = (columnIndex: number, rowIndex: number): number =>
-  columnIndex + COLUMN_COUNT * rowIndex
+import { DnDContext } from '../dnd.context'
+import { Item } from '../dnd.types'
 
 type ContainerProps = {
   $index: number
@@ -18,6 +14,8 @@ const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 200px;
+  height: 200px;
   border: 1px solid green;
   box-sizing: border-box;
   background-color: ${({ $index }) =>
@@ -28,17 +26,16 @@ const Container = styled.div<ContainerProps>`
   }
 `
 
-export const Cell: FC<GridChildComponentProps> = ({
-  columnIndex,
-  rowIndex,
-  style,
-  data,
-}) => {
-  const { selectedIndex } = useContext(DnDContext)
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: data[getIndex(columnIndex, rowIndex)] })
+type CardComponentProps = {
+  item: Item
+}
 
-  const isBeingDragged = getIndex(columnIndex, rowIndex) === selectedIndex
+export const CardComponent: FC<CardComponentProps> = ({ item }) => {
+  const { selectedId } = useContext(DnDContext)
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: item.id })
+
+  const isBeingDragged = item.id === selectedId
 
   const dragStyle = {
     transform: CSS.Transform.toString(transform),
@@ -53,12 +50,12 @@ export const Cell: FC<GridChildComponentProps> = ({
   return (
     <Container
       ref={setNodeRef}
-      style={{ ...style, ...dragStyle }}
+      style={{ ...dragStyle }}
       {...attributes}
       {...listeners}
-      $index={data[getIndex(columnIndex, rowIndex)]}
+      $index={Number(item.id)}
     >
-      {data[getIndex(columnIndex, rowIndex)]}
+      {item.value}
     </Container>
   )
 }

@@ -1,63 +1,59 @@
-import AutoSizer from 'react-virtualized-auto-sizer'
 import { FC, useContext, useState } from 'react'
-import { FixedSizeGrid } from 'react-window'
 import { DndContext, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
-import { Cell } from '../Cell/Cell'
-import { DnDContext } from '../contexts/dnd.context'
+import { CardComponent } from '../CardComponent/CardComponent'
+import { DnDContext } from '../dnd.context'
+import { Item } from '../dnd.types'
+import styled from 'styled-components'
+import { HeaderComponent } from '../HeaderComponent/HeaderComponent'
 
-const ELEMENTS = 5000
-
-export const COLUMN_COUNT = 5
-const ROW_COUNT = ELEMENTS / COLUMN_COUNT
-
-const getInitialState = (): string[] =>
-  Array(COLUMN_COUNT * ROW_COUNT)
-    .fill(false)
-    .map((_, index) => index.toString())
+const CardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+`
 
 const App: FC = () => {
-  const [cells, setCells] = useState(getInitialState())
+  const { cards, selectedId, setSelectedId } = useContext(DnDContext)
 
-  const { selectedIndex, setSelectedIndex } = useContext(DnDContext)
+  const itemsStructure: Record<string, Item> = {}
 
-  const getIndex = (id?: string): number => (id ? cells.indexOf(id) : -1)
+  cards.forEach((card) => (itemsStructure[card.id] = card))
 
-  const handleDragEnd = ({ active, over }: DragEndEvent): void => {
+  const [items, setItems] = useState<string[]>(cards.map((index) => index.id))
+
+  const handleDragEnd = ({ over }: DragEndEvent): void => {
     if (over) {
-      const overIndex = getIndex(over.id)
+      const overIndex = Number(items.indexOf(over.id))
+      const selectedIndex = Number(items.indexOf(selectedId))
+
       if (selectedIndex !== overIndex) {
-        setCells((cells) => arrayMove(cells, selectedIndex, overIndex))
+        setItems((cards) => arrayMove(cards, selectedIndex, overIndex))
       }
     }
 
-    setSelectedIndex(-1)
+    setSelectedId('')
   }
 
   return (
     <DndContext
       onDragStart={({ active }) => {
-        setSelectedIndex(getIndex(active.id))
+        setSelectedId(active.id)
       }}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={cells}>
-        <AutoSizer>
-          {({ width, height }) => (
-            <FixedSizeGrid
-              width={width}
-              height={height}
-              columnCount={COLUMN_COUNT}
-              columnWidth={200}
-              rowCount={ROW_COUNT}
-              rowHeight={200}
-              itemData={cells}
-            >
-              {Cell}
-            </FixedSizeGrid>
+      <SortableContext items={items}>
+        <CardsContainer>
+          {items.map((id) =>
+            itemsStructure[id].type === 'header' ? (
+              <HeaderComponent key={id} item={itemsStructure[id]} />
+            ) : (
+              <CardComponent key={id} item={itemsStructure[id]} />
+            )
           )}
-        </AutoSizer>
+        </CardsContainer>
       </SortableContext>
     </DndContext>
   )

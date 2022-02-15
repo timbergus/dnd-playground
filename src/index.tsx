@@ -5,7 +5,7 @@ import './index.css'
 
 import App from './components/App/App'
 import reportWebVitals from './reportWebVitals'
-import { DnDContextProvider } from './components/contexts/dnd.context'
+import { DnDContextProvider } from './components/dnd.context'
 
 ReactDOM.render(
   <React.StrictMode>
